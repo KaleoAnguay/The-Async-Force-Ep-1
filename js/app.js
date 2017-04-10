@@ -31,7 +31,7 @@ dReq.send();
 function starWarsHero() {
   const requestData = JSON.parse(this.responseText);
   const hisName = requestData.name;
-  const contentEl = document.querySelector('#content');
+  const contentEl = document.querySelector('#person14Name');
     person14Name.innerHTML = hisName;
 }
 const cReq = new XMLHttpRequest();
@@ -44,7 +44,7 @@ cReq.send();
 function starWarsType() {
   const requestData = JSON.parse(this.responseText);
   const hisSpecies = requestData.name;
-  const contentEl = document.querySelector('#content');
+  const contentEl = document.querySelector('#person14Species');
     person14Species.innerHTML = hisSpecies;
 }
 const hReq = new XMLHttpRequest();
@@ -55,11 +55,14 @@ hReq.send();
 
 function film() {
   const requestData = JSON.parse(this.responseText);
-  console.log(requestData);
-  const title = requestData.results[0].title;
-  console.log(title)
-  const contentEl = document.querySelector('#content');
-    filmTitle.innerHTML = title;
+  const title = requestData.results;
+  console.log(title);
+    for(var i = 0; i < title.length; i++) {
+      let newLi = document.createElement('li');
+      const contentEl = document.querySelector('#filmTitle');
+      newLi.innerHTML = title[i].title;
+      filmTitle.appendChild(newLi);
+    }
 }
 
 const tReq = new XMLHttpRequest();
