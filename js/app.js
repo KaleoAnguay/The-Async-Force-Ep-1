@@ -34,7 +34,7 @@ function starWarsName() {
   // console.log(requestData);
   const hisName = requestData.name;
   // console.log(hisName);
-  const contentEl = document.querySelector('#content');
+  const contentEl = document.querySelector('#person4Name');
   person4Name.innerHTML = hisName;
 }
 
@@ -42,7 +42,7 @@ function starWarsName() {
 function starWarsWorld() {
   const requestData = JSON.parse(this.responseText);
   const hisWorld = requestData.name;
-  const contentEl = document.querySelector('#content');
+  const contentEl = document.querySelector('#person4HomeWorld');
   person4HomeWorld.innerHTML = hisWorld;
 }
 
