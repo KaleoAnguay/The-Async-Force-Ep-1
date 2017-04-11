@@ -1,3 +1,33 @@
+//Darth Vaders name
+const badGuyReq = new XMLHttpRequest();
+badGuyReq.addEventListener('load', starWarsName);
+badGuyReq.open('GET', 'http://swapi.co/api/people/4/');
+badGuyReq.send();
+
+// Darth Vaders World
+const badWorldReq = new XMLHttpRequest();
+badWorldReq.addEventListener('load', starWarsWorld);
+badWorldReq.open('GET', 'http://swapi.co/api/planets/1/');
+badWorldReq.send();
+
+//Han Solos Name
+const peopleReq = new XMLHttpRequest();
+peopleReq.addEventListener('load', starWarsHero);
+peopleReq.open('GET', 'http://swapi.co/api/people/14/');
+peopleReq.send();
+
+//Hans solos World
+const speciesReq = new XMLHttpRequest();
+speciesReq.addEventListener('load', starWarsType);
+speciesReq.open('GET', 'http://swapi.co/api/species/1/');
+speciesReq.send();
+
+//Film Titles and planets
+const filmsReq = new XMLHttpRequest();
+filmsReq.addEventListener('load', film);
+filmsReq.open('GET', 'http://swapi.co/api/films/');
+filmsReq.send();
+
 //Darths Vaders Name
 function starWarsName() {
   const requestData = JSON.parse(this.responseText);
@@ -8,12 +38,6 @@ function starWarsName() {
   person4Name.innerHTML = hisName;
 }
 
-const oReq = new XMLHttpRequest();
-
-oReq.addEventListener('load', starWarsName);
-oReq.open('GET', 'http://swapi.co/api/people/4/');
-oReq.send();
-
 // Darth Vaders world
 function starWarsWorld() {
   const requestData = JSON.parse(this.responseText);
@@ -21,11 +45,7 @@ function starWarsWorld() {
   const contentEl = document.querySelector('#content');
   person4HomeWorld.innerHTML = hisWorld;
 }
-const dReq = new XMLHttpRequest();
 
-dReq.addEventListener('load', starWarsWorld);
-dReq.open('GET', 'http://swapi.co/api/planets/1/');
-dReq.send();
 
 //Hans solos name
 function starWarsHero() {
@@ -34,11 +54,8 @@ function starWarsHero() {
   const contentEl = document.querySelector('#person14Name');
     person14Name.innerHTML = hisName;
 }
-const cReq = new XMLHttpRequest();
 
-cReq.addEventListener('load', starWarsHero);
-cReq.open('GET', 'http://swapi.co/api/people/14/');
-cReq.send();
+
 
 //Hans solos species
 function starWarsType() {
@@ -47,26 +64,46 @@ function starWarsType() {
   const contentEl = document.querySelector('#person14Species');
     person14Species.innerHTML = hisSpecies;
 }
-const hReq = new XMLHttpRequest();
 
-hReq.addEventListener('load', starWarsType);
-hReq.open('GET', 'http://swapi.co/api/species/1/');
-hReq.send();
-
+//Film titles with planets
 function film() {
   const requestData = JSON.parse(this.responseText);
-  const title = requestData.results;
-  console.log(title);
-    for(var i = 0; i < title.length; i++) {
-      let newLi = document.createElement('li');
-      const contentEl = document.querySelector('#filmTitle');
-      newLi.innerHTML = title[i].title;
-      filmTitle.appendChild(newLi);
+  const data = requestData.results;
+  console.log(data);
+
+//for loop to add the movie titles
+  for(var i = 0; i < data.length; i++) {
+    let li = document.createElement('li');
+      li.class = 'titleClass' + i;
+
+    const contentEl = document.querySelector('#filmTitle');
+      li.innerHTML = data[i].title;
+      filmTitle.appendChild(li);
+
+// new ul for planets
+    const newUl = document.createElement('ul');
+    li.appendChild(newUl);
+
+
+// add the planets
+    for(var j = 0; j < data[i].planets.length;  j++) {
+      // console.log(data[i].planets[j]);
+
+      const planetsReq = new XMLHttpRequest();
+
+      planetsReq.addEventListener('load', onPlanetData);
+      planetsReq.open('GET', data[i].planets[j]);
+      planetsReq.send();
+
+// loading the planet names
+      function onPlanetData() {
+        const requestData = JSON.parse(this.responseText);
+        const planetName = requestData.name;
+        let newLi = document.createElement('li');
+          newLi.innerHTML = planetName;
+          newUl.appendChild(newLi);
+      }
     }
+  }
 }
 
-const tReq = new XMLHttpRequest();
-
-tReq.addEventListener('load', film);
-tReq.open('GET', 'http://swapi.co/api/films/');
-tReq.send();
